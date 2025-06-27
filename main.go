@@ -12,6 +12,7 @@ import (
 	"github.com/kataras/iris/v12/middleware/jwt"
 )
 
+
 func main() {
 	godotenv.Load()
 	storage.InitializeDB()
@@ -69,7 +70,7 @@ func main() {
 		user.Patch("/{id}/settings/notifications", accessTokenVerifierMiddleware, utils.UserIDMiddleware, routes.AllowsNotifications)
 		user.Get("/{id}/properties/contacted", accessTokenVerifierMiddleware, utils.UserIDMiddleware, routes.GetUserContactedProperties)
 	}
-	property := app.Party("/api/property")
+	property := app.Party("/api/property")	
 	{
 		property.Post("/", routes.CreateProperty)
 		property.Get("/{id}", routes.GetProperty)
