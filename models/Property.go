@@ -41,4 +41,6 @@ type Property struct {
 	Stars             float32        `json:"stars"`
 	Apartments        []Apartment    `json:"apartments"`
 	Reviews           []Review       `json:"reviews"`
+	EmployerID      *uint          `json:"employerID"` // Nullable for non-employer properties
+	Employees       []User         `json:"employees" gorm:"many2many:property_employees;"`
 }

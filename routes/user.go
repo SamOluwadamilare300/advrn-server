@@ -20,11 +20,19 @@ import (
 	"golang.org/x/exp/slices"
 )
 
+
 func Register(ctx iris.Context) {
 	var userInput RegisterUserInput
 	err := ctx.ReadJSON(&userInput)
 	if err != nil {
 		utils.HandleValidationErrors(err, ctx)
+		return
+	}
+
+	// Validate role
+	validRoles := []string{"tenant", "landlord", "employer"}
+	if !slices.Contains(validRoles, userInput.Role) {
+		utils.CreateError(iris.StatusBadRequest, "Validation Error", "Invalid role specified", ctx)
 		return
 	}
 
@@ -51,7 +59,9 @@ func Register(ctx iris.Context) {
 		LastName:    userInput.LastName,
 		Email:       strings.ToLower(userInput.Email),
 		Password:    hashedPassword,
-		SocialLogin: false}
+		Role:        userInput.Role,
+		SocialLogin: false,
+	}
 
 	storage.DB.Create(&newUser)
 
@@ -641,11 +651,31 @@ func returnUser(user models.User, ctx iris.Context) {
 
 }
 
+func GetEmployeeHousing(ctx iris.Context) {
+	claims := jsonWT.Get(ctx).(*utils.AccessToken)
+	
+	var employer models.User
+	if err := storage.DB.First(&employer, claims.ID).Error; err != nil || employer.Role != "employer" {
+		utils.CreateError(iris.StatusForbidden, "Authorization Error", "Only employers can access this feature", ctx)
+		return
+	}
+
+	// Get all properties secured for this employer's employees
+	var properties []models.Property
+	if err := storage.DB.Where("employer_id = ?", claims.ID).Find(&properties).Error; err != nil {
+		utils.CreateInternalServerError(ctx)
+		return
+	}
+
+	ctx.JSON(properties)
+}
+
 type RegisterUserInput struct {
 	FirstName string `json:"firstName" validate:"required,max=256"`
 	LastName  string `json:"lastName" validate:"required,max=256"`
 	Email     string `json:"email" validate:"required,max=256,email"`
 	Password  string `json:"password" validate:"required,min=8,max=256"`
+	Role      string `json:"role" validate:"required,oneof=tenant landlord employer"` 
 }
 
 type LoginUserInput struct {
