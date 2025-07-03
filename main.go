@@ -12,7 +12,6 @@ import (
 	"github.com/kataras/iris/v12/middleware/jwt"
 )
 
-
 func main() {
 	godotenv.Load()
 	storage.InitializeDB()
@@ -64,19 +63,27 @@ func main() {
 		user.Post("/apple", routes.AppleLoginOrSignUp)
 		user.Post("/forgotpassword", routes.ForgotPassword)
 		user.Post("/resetpassword", resetTokenVerifierMiddleware, routes.ResetPassword)
-		user.Get("/{id}/properties/saved", accessTokenVerifierMiddleware, utils.UserIDMiddleware, routes.GetUserSavedProperties)
-		user.Patch("/{id}/properties/saved", accessTokenVerifierMiddleware, utils.UserIDMiddleware, routes.AlterUserSavedProperties)
+		// Tenant-specific routes
+		user.Get("/{id}/properties/saved", accessTokenVerifierMiddleware, utils.UserIDMiddleware, utils.RoleMiddleware("tenant"), routes.GetUserSavedProperties)
+		user.Patch("/{id}/properties/saved", accessTokenVerifierMiddleware, utils.UserIDMiddleware, utils.RoleMiddleware("tenant"), routes.AlterUserSavedProperties)
+		user.Get("/{id}/properties/contacted", accessTokenVerifierMiddleware, utils.UserIDMiddleware, utils.RoleMiddleware("tenant"), routes.GetUserContactedProperties)
+		// user.Get("/{id}/properties/saved", accessTokenVerifierMiddleware, utils.UserIDMiddleware, routes.GetUserSavedProperties)
+		// user.Patch("/{id}/properties/saved", accessTokenVerifierMiddleware, utils.UserIDMiddleware, routes.AlterUserSavedProperties)
+		// user.Get("/{id}/properties/contacted", accessTokenVerifierMiddleware, utils.UserIDMiddleware, routes.GetUserContactedProperties)
 		user.Patch("/{id}/pushtoken", accessTokenVerifierMiddleware, utils.UserIDMiddleware, routes.AlterPushToken)
 		user.Patch("/{id}/settings/notifications", accessTokenVerifierMiddleware, utils.UserIDMiddleware, routes.AllowsNotifications)
-		user.Get("/{id}/properties/contacted", accessTokenVerifierMiddleware, utils.UserIDMiddleware, routes.GetUserContactedProperties)
 	}
-	property := app.Party("/api/property")	
+	property := app.Party("/api/property")
 	{
-		property.Post("/", routes.CreateProperty)
+		// property.Post("/", routes.CreateProperty)
+		// property.Get("/userid/{id}", accessTokenVerifierMiddleware, utils.UserIDMiddleware, routes.GetPropertiesByUserID)
+		// property.Delete("/{id}", accessTokenVerifierMiddleware, routes.DeleteProperty)
+		// property.Patch("/update/{id}", accessTokenVerifierMiddleware, routes.UpdateProperty)
+		property.Post("/", accessTokenVerifierMiddleware, utils.RoleMiddleware("landlord"), routes.CreateProperty)
 		property.Get("/{id}", routes.GetProperty)
-		property.Get("/userid/{id}", accessTokenVerifierMiddleware, utils.UserIDMiddleware, routes.GetPropertiesByUserID)
-		property.Delete("/{id}", accessTokenVerifierMiddleware, routes.DeleteProperty)
-		property.Patch("/update/{id}", accessTokenVerifierMiddleware, routes.UpdateProperty)
+		property.Get("/userid/{id}", accessTokenVerifierMiddleware, utils.UserIDMiddleware, utils.RoleMiddleware("landlord"), routes.GetPropertiesByUserID)
+		property.Delete("/{id}", accessTokenVerifierMiddleware, utils.RoleMiddleware("landlord"), routes.DeleteProperty)
+		property.Patch("/update/{id}", accessTokenVerifierMiddleware, utils.RoleMiddleware("landlord"), routes.UpdateProperty)
 		property.Post("/search", routes.GetPropertiesByBoundingBox)
 	}
 	apartment := app.Party("/api/apartment")
@@ -101,6 +108,10 @@ func main() {
 	notifications := app.Party("/api/notifications")
 	{
 		notifications.Post("/test", routes.TestMessageNotification)
+	}
+	employer := app.Party("/api/employer")
+	{
+		employer.Get("/housing", accessTokenVerifierMiddleware, utils.RoleMiddleware("employer"), routes.GetEmployeeHousing)
 	}
 	app.Post("/api/refresh", refreshTokenVerifierMiddleware, utils.RefreshToken)
 
