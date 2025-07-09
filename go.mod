@@ -8,6 +8,10 @@ require (
 	github.com/aws/aws-sdk-go-v2/feature/s3/manager v1.11.21
 	github.com/aws/aws-sdk-go-v2/service/s3 v1.27.2
 	github.com/joho/godotenv v1.4.0
+	github.com/go-playground/validator/v10 v10.26.0
+	github.com/joho/godotenv v1.5.1
+	github.com/kataras/iris/v12 v12.2.11
+	gorm.io/gorm v1.30.0
 	github.com/kataras/iris/v12 v12.2.0-beta4
 	github.com/oliveroneill/exponent-server-sdk-golang v0.0.0-20210823140141-d050598be512
 	github.com/thanhpk/randstr v1.0.4

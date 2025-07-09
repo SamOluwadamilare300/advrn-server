@@ -6,9 +6,9 @@ import (
 	"advrn-server/models/utils"
 	"os"
 
+	"github.com/kataras/iris/v12"
 	"github.com/go-playground/validator/v10"
 	"github.com/joho/godotenv"
-	"github.com/kataras/iris/v12"
 	"github.com/kataras/iris/v12/middleware/jwt"
 )
 

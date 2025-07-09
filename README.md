@@ -28,8 +28,6 @@ To eliminate the stress and uncertainty of finding quality housing for Nigeria's
 - [🚀 Getting Started](#-getting-started)
 - [🛠️ Development](#️-development)
 - [📱 API Documentation](#-api-documentation)
-- [🧪 Testing](#-testing)
-- [🤝 Contributing](#-contributing)
 - [📄 License](#-license)
 - [📞 Support](#-support)
 
@@ -229,7 +227,7 @@ To eliminate the stress and uncertainty of finding quality housing for Nigeria's
 ### 🔧 **Technical Stack**
 ```
 Frontend:     React.js / Next.js with TypeScript
-Backend:      Node.js with Express.js / NestJS
+Backend:      Golang with Iris
 Database:     PostgreSQL with Redis caching
 Payment:      Paystack, Flutterwave integration
 Storage:      AWS S3 / Cloudinary for media
@@ -256,58 +254,11 @@ Analytics:    Google Analytics / Mixpanel
 ## 🚀 Getting Started
 
 ### ⚙️ **Prerequisites**
-- Node.js 18+ and npm/yarn
+- Golang
 - PostgreSQL 12+
 - Redis 6+
 - AWS/GCP account (for production)
 
-### 📥 **Installation**
-
-```bash
-# Clone the repository
-git clone https://github.com/relocate-ng/platform.git
-cd relocate-ng-platform
-
-# Install dependencies
-npm install
-
-# Set up environment variables
-cp .env.example .env
-# Edit .env with your configuration
-
-# Set up database
-npm run db:migrate
-npm run db:seed
-
-# Start development server
-npm run dev
-```
-
-### 🌍 **Environment Variables**
-```bash
-# Database
-DATABASE_URL=postgresql://user:password@localhost:5432/relocate_ng
-REDIS_URL=redis://localhost:6379
-
-# Authentication
-JWT_SECRET=your-jwt-secret-key
-JWT_EXPIRES_IN=7d
-
-# Payment Gateways
-PAYSTACK_SECRET_KEY=sk_test_your_paystack_key
-FLUTTERWAVE_SECRET_KEY=FLWSECK_TEST-your_flutterwave_key
-
-# File Storage  
-AWS_ACCESS_KEY_ID=your_aws_access_key
-AWS_SECRET_ACCESS_KEY=your_aws_secret_key
-AWS_S3_BUCKET=relocate-ng-uploads
-
-# External Services
-GOOGLE_MAPS_API_KEY=your_google_maps_key
-SENDGRID_API_KEY=your_sendgrid_key
-```
-
----
 
 
 ## 📱 API Documentation
@@ -328,84 +279,11 @@ SENDGRID_API_KEY=your_sendgrid_key
 - **E2E Tests:** Playwright for user workflow testing
 - **Performance Tests:** Artillery for load testing
 
-### ▶️ **Running Tests**
-```bash
-# Unit tests
-npm run test:unit
-
-# Integration tests  
-npm run test:integration
-
-# End-to-end tests
-npm run test:e2e
-
-# All tests with coverage
-npm run test:coverage
-```
-
-### 📊 **Test Coverage**
-Target coverage thresholds:
-- **Statements:** 85%
-- **Branches:** 80%
-- **Functions:** 85%
-- **Lines:** 85%
-
----
-
-## 🤝 Contributing
-
-We welcome contributions from the community! Please read our [Contributing Guidelines](CONTRIBUTING.md) before getting started.
-
-### 🚀 **Quick Start for Contributors**
-1. Fork the repository
-2. Create a feature branch: `git checkout -b feature/amazing-feature`
-3. Make your changes and add tests
-4. Ensure all tests pass: `npm run test`
-5. Commit your changes: `git commit -m 'Add amazing feature'`
-6. Push to your branch: `git push origin feature/amazing-feature`
-7. Submit a Pull Request
-
-### 📝 **Development Guidelines**
-- Follow TypeScript best practices
-- Write tests for new features
-- Update documentation for API changes
-- Use conventional commit messages
-- Ensure code passes linting and formatting
-
-### 🐛 **Reporting Issues**
-- Use GitHub Issues for bug reports
-- Include detailed reproduction steps
-- Provide environment information
-- Add screenshots for UI issues
-
----
 
 ## 📄 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
----
-
-## 📞 Support
-
-### 💬 **Get Help**
-- **Documentation:** [docs.relocate.ng](https://docs.relocate.ng)
-- **Email Support:** support@relocate.ng
-- **Business Inquiries:** hello@relocate.ng
-- **Emergency Support:** +234-XXX-XXX-XXXX
-
-### 🌐 **Connect With Us**
-- **Website:** [relocate.ng](https://relocate.ng)
-- **Twitter:** [@RelocateNG](https://twitter.com/relocateng)
-- **LinkedIn:** [Relocate.ng](https://linkedin.com/company/relocateng)
-- **GitHub:** [relocate-ng](https://github.com/relocate-ng)
-
-### 🏢 **For Businesses**
-- **Partnership Inquiries:** partnerships@relocate.ng
-- **Enterprise Sales:** enterprise@relocate.ng
-- **API Access:** developers@relocate.ng
-
----
 
 <div align="center">
   <p><strong>Made with ❤️ in Nigeria</strong></p>

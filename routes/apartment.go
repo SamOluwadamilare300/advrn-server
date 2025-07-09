@@ -6,8 +6,8 @@ import (
 	"advrn-server/models/utils"
 	"time"
 
-	"github.com/kataras/iris/v12"
-	"github.com/kataras/iris/v12/middleware/jwt"
+	// "github.com/kataras/iris/v12"
+	// "github.com/kataras/iris/v12/middleware/jwt"
 )
 
 func GetApartmentsByPropertyID(ctx iris.Context) {
